@@ -2,13 +2,13 @@
 import os
 
 import discord
-from identify import Identify
+from src.identify import Identify
 from dotenv import load_dotenv
 
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
-identifier = Identify()
+searcher = Search()
 
 client = discord.Client()
 
@@ -22,12 +22,12 @@ async def on_message(message):
     if message.author == client.user:
         return # avoid recursion
 
-    cards = identifier.cards(message.content)
+    cards = searcher.find_cards(message.content)
     for card in cards: 
         # TODO display card details
         # TODO nice card details display 
-        print(card) 
-        await message.channel.send("TODO display cards for: " + card)
+        print(card.name) 
+        await message.channel.send("TODO display cards for: " + card.name)
 
 
 client.run(TOKEN)
