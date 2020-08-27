@@ -1,3 +1,8 @@
+# Bot configuration
+.env
+
+# Pre-generated gitignore by Github
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
