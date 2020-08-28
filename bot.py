@@ -2,14 +2,32 @@
 import os
 
 import discord
-from src.identify import Identify
+from datetime import date # Temp
+from src.card import Card # Temp
+from src.search import Search
+from src.series import Series # Temp
 from dotenv import load_dotenv
+from tests.fake_database import FakeDatabase # Temp
 
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
-searcher = Search()
-
+# TEMP initialization
+teamUp = Series("Team Up", date(2019, 2, 1), ["SM9", "TEU", "SM09"])
+swordShield = Series("Sword&Shield", date(2020, 2, 1), ["SWSH1", "SSH", "EB1"])
+rebelClash = Series("Rebel Clash", date(2020, 5, 1), ["SWSH2", "S2", "EB2"])
+celestialStorm = Series("Celestial Storm", date(2018, 8, 1), ["SM7", "CES", "SM07"])
+cards = [
+        Card("Jirachi", teamUp, 99),
+        Card("Jirachi {*}", celestialStorm, 80),
+        Card("Pikachu", swordShield, 65),
+        Card("Pikachu&Zekrom GX", teamUp, 33),
+        Card("Intelleon V", rebelClash, 49),
+        Card("Intelleon Vmax", rebelClash, 50),
+]
+db = FakeDatabase(cards)
+# / TEMP
+searcher = Search(db)
 client = discord.Client()
 
 @client.event
@@ -24,10 +42,10 @@ async def on_message(message):
 
     cards = searcher.find_cards(message.content)
     for card in cards: 
-        # TODO display card details
+        # TODO handle: card is Invalid Card
         # TODO nice card details display 
         print(card.name) 
-        await message.channel.send("TODO display cards for: " + card.name)
+        await message.channel.send("TODO display cards for: " + card.name + " from " + card.series.name)
 
 
 client.run(TOKEN)

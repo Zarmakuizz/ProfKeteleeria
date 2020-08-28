@@ -28,8 +28,9 @@ class Search:
         if(number):
             candidates = self.__filter_by_number(candidates, int(number))
         
-        candidates = self.__get_last_released(candidates)
         if(candidates):
+            candidates = self.__remove_long_names(candidates)
+            candidates = self.__get_last_released(candidates)
             return candidates[0]
         else:
             return ErrorCard()
@@ -71,6 +72,13 @@ class Search:
             if card.number == number:
                 candidates.append(card)
         return candidates
+    
+    def __remove_long_names(self, cards: List[Card]) -> List[Card]: 
+        cards.sort(key= lambda card: len(card.name))
+        shortest_length = len(cards[0].name)
+        arbitrary_margin = 5 # should be enough to filter EX, VMAX, {*}...
+        result = list(filter(lambda card: len(card.name) <= shortest_length + arbitrary_margin, cards))
+        return result
     
     def __get_last_released(self, cards: List[Card]) -> List[Card]:
         cards.sort(key= lambda card: card.series.date, reverse=True)

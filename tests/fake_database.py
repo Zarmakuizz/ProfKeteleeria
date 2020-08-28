@@ -23,9 +23,6 @@ class FakeDatabase(DatabaseInterface):
             if is_matching:
                 result.append(card)
 
-        if(len(result) > 1):
-            result = self.__remove_long_names(result)
-
         return result
     
     def __sanitize_name(self, name: str) -> str:
@@ -34,13 +31,6 @@ class FakeDatabase(DatabaseInterface):
         result = re.sub(r"-gx$", " gx", result)
         result = re.sub(r"-v$", " v", result)
         result = re.sub(r"-vmax$", " vmax", result)
-        return result
-    
-    def __remove_long_names(self, cards: List[Card]) -> List[Card]: 
-        cards.sort(key= lambda card: len(card.name))
-        shortest_length = len(cards[0].name)
-        arbitrary_margin = 5 # should be enough to filter EX, VMAX, {*}...
-        result = list(filter(lambda card: len(card.name) <= shortest_length + arbitrary_margin, cards))
         return result
 
     def is_series(self, abbreviation: str) ->bool:
