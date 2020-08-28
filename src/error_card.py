@@ -5,7 +5,7 @@ from src.card import Card
 class ErrorCard(Card):
 
     def __init__(self):
-        super().__init__("", None)
+        super().__init__("", None, -1)
     
     def is_valid(self) -> bool:
         return False

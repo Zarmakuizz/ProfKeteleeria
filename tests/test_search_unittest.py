@@ -10,21 +10,21 @@ from tests.fake_database import FakeDatabase
 
 class TestSearch(unittest.TestCase):
     # Series
-    teamUp = Series("Team Up", date(2019, 2, 1), ["SM9"])
-    darknessAblaze = Series("Darkness Ablaze", date(2020, 8, 16), ["SWSH3"])
+    teamUp = Series("Team Up", date(2019, 2, 1), ["SM9", "TEU", "SM09"])
+    rebelClash = Series("Rebel Clash", date(2020, 5, 1), ["SWSH2"])
     celestialStorm = Series("Celestial Storm", date(2018, 8, 1), ["SM7"])
     oldSet = Series("who cares", date(2015, 1, 1), [""])
 
     cards = [
-        Card("Jirachi", oldSet),
-        Card("Pikachu", oldSet),
-        Card("Jirachi", teamUp),
-        Card("Jirachi {*}", celestialStorm),
-        Card("Pikachu GX", oldSet),
-        Card("Pikachu EX", oldSet),
-        Card("Pikachu&Zekrom GX", teamUp),
-        Card("Intelleon V", darknessAblaze),
-        Card("Intelleon Vmax", darknessAblaze),
+        Card("Jirachi", oldSet, 42),
+        Card("Pikachu", oldSet, 25),
+        Card("Jirachi", teamUp, 99),
+        Card("Jirachi {*}", celestialStorm, 80),
+        Card("Pikachu GX", oldSet, 26),
+        Card("Pikachu EX", oldSet, 27),
+        Card("Pikachu&Zekrom GX", teamUp, 33),
+        Card("Intelleon V", rebelClash, 49),
+        Card("Intelleon Vmax", rebelClash, 50),
     ]
     
     def test_get_jirachi(self): 
@@ -62,6 +62,7 @@ class TestSearch(unittest.TestCase):
 
         # Assert
         self.assertIsInstance( match, Card, "We always return a card object")
+        self.assertIsInstance( match, ErrorCard, "We return an Error object instead")
         self.assertFalse( match.is_valid(), "No Pokémon card should have that name")
     
     def test_get_last_jirachi(self):
@@ -115,7 +116,9 @@ class TestSearch(unittest.TestCase):
         match = engine.find_cards(text)[0]
 
         # Assert
-        self.assertFalse( match, "we lack any information on card's series and #")
+        self.assertEqual("Jirachi", match.name, "Card should be found")
+        self.assertEqual(self.teamUp, match.series, "Card should have the right series")
+        self.assertEqual(99, match.number, "Card should have the right collection number")
     
     def test_get_GX_card(self):
         # Arrange
