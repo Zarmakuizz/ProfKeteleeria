@@ -133,7 +133,8 @@ class TestSearch(unittest.TestCase):
 
         # Assert
         self.assertNotIsInstance( match1, ErrorCard, "Should find a card")
-        self.assertEqual(match1.name, match2.name, "Should be the same card")
+        self.assertEqual(match1.name, "Pikachu GX", "The right card should be found")
+        self.assertEqual(match1, match2, "Should be the same card")
     
     def test_get_EX_card(self):
         # Arrange
@@ -148,7 +149,7 @@ class TestSearch(unittest.TestCase):
 
         # Assert
         self.assertNotIsInstance( match1, ErrorCard, "Should find a card")
-        self.assertEqual(match1.name, match2.name, "Should be the same card")
+        self.assertEqual(match1, match2, "Should be the same card")
     
     def test_get_V_card(self):
         # Arrange
@@ -163,7 +164,7 @@ class TestSearch(unittest.TestCase):
 
         # Assert
         self.assertNotIsInstance( match1, ErrorCard, "Should find a card")
-        self.assertEqual(match1.name, match2.name, "Should be the same card")
+        self.assertEqual(match1, match2, "Should be the same card")
         self.assertNotIn("Vmax", match1.name, "Should not pick the Vmax card")
     
     def test_get_Vmax_card(self):
@@ -179,7 +180,7 @@ class TestSearch(unittest.TestCase):
 
         # Assert
         self.assertNotIsInstance( match1, ErrorCard, "Should find a card")
-        self.assertEqual(match1.name, match2.name, "Should be the same card")
+        self.assertEqual(match1, match2, "Should be the same card")
         self.assertNotEqual(match1.name, "Intelleon V" , "Should not pick the V card")
 
     def test_get_Tag_Team_card(self):
@@ -197,8 +198,8 @@ class TestSearch(unittest.TestCase):
 
         # Assert
         self.assertNotIsInstance( match1, ErrorCard, "Should find a card")
-        self.assertEqual(match1.name, match2.name, "Should be the same card")
-        self.assertEqual(match1.name, match3.name, "Should be the same card")
+        self.assertEqual(match1, match2, "Should be the same card")
+        self.assertEqual(match1, match3, "Should be the same card")
 
 
     

@@ -17,7 +17,9 @@ class Series:
         return abbreviation in self.abbreviations
     
     def __eq__(self, other):
-        return self.name == other.name and self.date == other.date
+        return (other != None 
+            and self.name == other.name 
+            and self.date == other.date)
 
     def __str__(self):
         return "[" + self.name + "|" + ','.join(self.abbreviations) + "]"

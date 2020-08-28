@@ -5,6 +5,7 @@ from typing import List
 from src.card import Card
 from src.error_card import ErrorCard
 from src.databaseInterface import DatabaseInterface
+from src.series import Series
 
 class Search:
 
@@ -19,12 +20,9 @@ class Search:
         return result
 
     def card(self, card_raw_text: str) -> Card: 
-        matches = re.search(r"(?P<name>\S+)(?: (?P<series>\S+))?(?: (?P<number>\S+))?", card_raw_text)
-        name = matches.group('name')
-        series = matches.group('series')
-        number = matches.group('number')
+        names, series, number = self.__identify_card(card_raw_text)
 
-        candidates = self.__get_cards(name)
+        candidates = self.__get_cards(names)
         if(series):
             candidates = self.__filter_by_series(candidates, series)
         if(number):
@@ -36,14 +34,33 @@ class Search:
         else:
             return ErrorCard()
     
-    def __get_cards(self, name: str): 
-        candidates = self.database.getCards(name)
-        return candidates
     
-    def __filter_by_series(self, cards: List[Card], series) -> List[Card]:
+    def __identify_card(self, card_raw_text: str):
+        names = card_raw_text.split(' ')
+        series = None
+        number = None
+        while(len(names) > 1):
+            current = names[-1]
+            if(current.isnumeric()):
+                number = names.pop(-1)
+                continue
+            if(self.database.is_series(current)):
+                series = self.database.get_series(current)
+                names.pop(-1)
+                continue
+            break
+        # TODO filter bad strings
+        return (names, series, number)
+            
+    
+    def __get_cards(self, names: List[str]) -> List[Card]: 
+        candidates = self.database.getCards(names)
+        return candidates
+
+    def __filter_by_series(self, cards: List[Card], series: Series) -> List[Card]:
         candidates = []
         for card in cards:
-            if card.series.matches(series):
+            if card.series == series:
                 candidates.append(card)
         
         return candidates
