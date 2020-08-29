@@ -42,9 +42,11 @@ async def on_message(message):
 
     cards = searcher.find_cards(message.content)
     for card in cards: 
-        # TODO handle: card is Invalid Card
         # TODO nice card details display 
-        await message.channel.send(embed=card.get_embed())
+        if card.is_valid():
+            await message.channel.send(embed=card.get_embed())
+        else:
+            await message.add_reaction("\U0000274C") # X emoji
 
 
 client.run(TOKEN)
