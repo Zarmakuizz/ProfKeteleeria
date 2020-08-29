@@ -42,7 +42,6 @@ async def on_message(message):
 
     cards = searcher.find_cards(message.content)
     for card in cards: 
-        # TODO nice card details display 
         if card.is_valid():
             await message.channel.send(embed=card.get_embed())
         else:
