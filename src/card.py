@@ -15,13 +15,8 @@ class Card:
         return True
     
     def get_embed(self): 
-        embed = discord.Embed()
-        embed.title = self.name
-        embed.description = self.series.name + " " + str(self.number) + "/" + "XXX" # todo set official total
-        embed.add_field(name="Ability: Saucisse", value="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", inline=True)
-        embed.type = "rich"
-        embed.colour = discord.Colour.from_rgb(255, 255, 0)
-
+        from src.embed_card import EmbedCard # workaround against circular imports
+        embed = EmbedCard(self).getEmbed()
         return embed
     
     def __eq__(self, other) -> bool:

@@ -44,7 +44,6 @@ async def on_message(message):
     for card in cards: 
         # TODO handle: card is Invalid Card
         # TODO nice card details display 
-        print(card.name) 
         await message.channel.send(embed=card.get_embed())
 
 
