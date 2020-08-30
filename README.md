@@ -4,7 +4,7 @@ Discord bot to retrieve and identify Pokémon cards
 
 ## Purpose
 
-When a user types a [card name], this bot displays a card matching the request. Inspired by the Discord bot Millenium Eye, or [Bastion Bot](https://github.com/AlphaKretin/bastion-bot) that works in a similar fashion.
+When a user types a [card name] in a Discord channel, this bot displays a card matching the request. Inspired by the Discord bot Millenium Eye, or [Bastion Bot](https://github.com/AlphaKretin/bastion-bot) that works in a similar fashion.
 
 - Supports card search in English only
 - Supports search with a card's abbreviation: [card name SET] (a set may have multiple abbreviations)
@@ -28,6 +28,9 @@ If you want to use your own database, you should inherit both classes named "Int
 - Modify the values in .env accordingly
 
 Run the script run.sh to start the bot, unittest.sh to run the rests.
+
+Follow the instructions in the [Python Discord Bot Full Tutorial](https://realpython.com/how-to-make-a-discord-bot-python/#how-to-make-a-discord-bot-in-python)
+ on how to declare your bot on Discord, and add it to your server.
 
 ## Dependencies
 
