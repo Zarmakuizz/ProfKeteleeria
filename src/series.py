@@ -3,12 +3,23 @@ from typing import List
 from datetime import date
 
 class Series: 
-    abbreviations: List[str] = []
 
-    def __init__(self, name: str, date: date, abbreviations):
-        self.name = name
-        self.date = date
-        self.abbreviations = abbreviations
+    def __init__(self):
+        self.id = 0
+        self.bloc = 0
+        self.name = ""
+        self.date = None
+        self.total = 0
+        self.abbreviations = []
+
+    @staticmethod
+    def from_test_data(name: str, date: date, abbreviations: List[str]):
+        series = Series()
+        series.name = name
+        series.date = date
+        series.abbreviations = abbreviations
+
+        return series
 
     def add_abbreviation(self, abbreviation: str): 
         self.abbreviations.append(abbreviation)

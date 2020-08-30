@@ -9,27 +9,10 @@ from src.series import Series
 from tests.fake_database import FakeDatabase 
 
 class TestSearch(unittest.TestCase):
-    # Series
-    teamUp = Series("Team Up", date(2019, 2, 1), ["SM9", "TEU", "SM09"])
-    rebelClash = Series("Rebel Clash", date(2020, 5, 1), ["SWSH2"])
-    celestialStorm = Series("Celestial Storm", date(2018, 8, 1), ["SM7"])
-    oldSet = Series("who cares", date(2015, 1, 1), [""])
-
-    cards = [
-        Card("Jirachi", oldSet, 42),
-        Card("Pikachu", oldSet, 25),
-        Card("Jirachi", teamUp, 99),
-        Card("Jirachi {*}", celestialStorm, 80),
-        Card("Pikachu GX", oldSet, 26),
-        Card("Pikachu EX", oldSet, 27),
-        Card("Pikachu&Zekrom GX", teamUp, 33),
-        Card("Intelleon V", rebelClash, 49),
-        Card("Intelleon Vmax", rebelClash, 50),
-    ]
     
     def test_get_jirachi(self): 
         # Arrange
-        db = FakeDatabase(self.cards)
+        db = FakeDatabase()
         engine = Search(db)
         text = "[Jirachi]"
 
@@ -41,7 +24,7 @@ class TestSearch(unittest.TestCase):
     
     def test_get_incomplete_name(self): 
         # Arrange
-        db = FakeDatabase(self.cards)
+        db = FakeDatabase()
         engine = Search(db)
         text = "[Jirach]"
 
@@ -53,7 +36,7 @@ class TestSearch(unittest.TestCase):
 
     def test_get_none(self): 
         # Arrange
-        db = FakeDatabase(self.cards)
+        db = FakeDatabase()
         engine = Search(db)
         text = "[Kuriboh]"
 
@@ -67,7 +50,7 @@ class TestSearch(unittest.TestCase):
     
     def test_get_last_jirachi(self):
         # Arrange
-        db = FakeDatabase(self.cards)
+        db = FakeDatabase()
         engine = Search(db)
         text = "[Jirachi]"
 
@@ -75,11 +58,11 @@ class TestSearch(unittest.TestCase):
         match = engine.find_cards(text)[0]
 
         # Assert
-        self.assertEqual( match.series, self.teamUp, "Oldest Jirachi is in Team Up")
+        self.assertEqual( match.series.name, "Team Up", "Oldest Jirachi is in Team Up")
     
     def test_get_jirachi_by_series(self):
         # Arrange
-        db = FakeDatabase(self.cards)
+        db = FakeDatabase()
         engine = Search(db)
         text = "[Jirachi SM7]"
 
@@ -87,11 +70,11 @@ class TestSearch(unittest.TestCase):
         match = engine.find_cards(text)[0]
 
         # Assert
-        self.assertEqual( match.series, self.celestialStorm, "We requested Jirachi {*} from Celestial Storm")
+        self.assertEqual( match.series.name, "Celestial Storm", "We requested Jirachi {*} from Celestial Storm")
     
     def test_get_jirachi_by_alternative_series(self):
         # Arrange
-        db = FakeDatabase(self.cards)
+        db = FakeDatabase()
         engine = Search(db)
         text1 = "[Jirachi SM9]"
         text2 = "[Jirachi TEU]"
@@ -108,7 +91,7 @@ class TestSearch(unittest.TestCase):
     
     def test_get_jirachi_by_series_and_number(self):
         # Arrange
-        db = FakeDatabase(self.cards)
+        db = FakeDatabase()
         engine = Search(db)
         text = "[Jirachi SM9 99]"
 
@@ -117,12 +100,12 @@ class TestSearch(unittest.TestCase):
 
         # Assert
         self.assertEqual("Jirachi", match.name, "Card should be found")
-        self.assertEqual(self.teamUp, match.series, "Card should have the right series")
+        self.assertEqual("Team Up", match.series.name, "Card should have the right series")
         self.assertEqual(99, match.number, "Card should have the right collection number")
     
     def test_get_GX_card(self):
         # Arrange
-        db = FakeDatabase(self.cards)
+        db = FakeDatabase()
         engine = Search(db)
         text1 = "[Pikachu GX]"
         text2 = "[Pikachu-GX]"
@@ -138,7 +121,7 @@ class TestSearch(unittest.TestCase):
     
     def test_get_EX_card(self):
         # Arrange
-        db = FakeDatabase(self.cards)
+        db = FakeDatabase()
         engine = Search(db)
         text1 = "[Pikachu EX]"
         text2 = "[Pikachu-EX]"
@@ -153,7 +136,7 @@ class TestSearch(unittest.TestCase):
     
     def test_get_V_card(self):
         # Arrange
-        db = FakeDatabase(self.cards)
+        db = FakeDatabase()
         engine = Search(db)
         text1 = "[Intelleon V]"
         text2 = "[Intelleon-V]"
@@ -169,7 +152,7 @@ class TestSearch(unittest.TestCase):
     
     def test_get_Vmax_card(self):
         # Arrange
-        db = FakeDatabase(self.cards)
+        db = FakeDatabase()
         engine = Search(db)
         text1 = "[Intelleon Vmax]"
         text2 = "[Intelleon-Vmax]"
@@ -185,7 +168,7 @@ class TestSearch(unittest.TestCase):
 
     def test_get_Tag_Team_card(self):
         # Arrange
-        db = FakeDatabase(self.cards)
+        db = FakeDatabase()
         engine = Search(db)
         text1 = "[Pikachu&Zekrom GX]"
         text2 = "[Pikachu Zekrom]"
@@ -205,15 +188,16 @@ class TestSearch(unittest.TestCase):
     
     def test_get_by_french_name(self):
         # Arrange
-        db = FakeDatabase(self.cards)
-        engine = Search(db)
-        text = "[Lézargus]"
+        # db = FakeDatabase()
+        # engine = Search(db)
+        # text = "[Lézargus]"
 
-        # Act
-        match = engine.find_cards(text)[0]
+        # # Act
+        # match = engine.find_cards(text)[0]
 
-        # Assert
-        self.assertTrue("Intelleon" in match.name, "Intelleon is Lézargus in French")
+        # # Assert
+        # self.assertTrue("Intelleon" in match.name, "Intelleon is Lézargus in French")
+        self.fail("Feature not supported with the fake database")
 
 
 if __name__ == '__main__':

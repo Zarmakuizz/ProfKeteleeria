@@ -5,18 +5,29 @@ from src.series import Series
 
 class Card:
 
-    # TODO load a read card data
-    def __init__(self, name: str, series: Series, number: int): 
-        self.name = name
-        self.series = series
-        self.number = number
+    def __init__(self):
+        self.id = 0
+        self.name = ""
+        self.number = 0
+        self.card_type = 0
+        self.series = None
+
+    @staticmethod
+    def from_test_data(name: str, series: Series, number):
+        card = Card()
+        card.name = name 
+        card.series = series
+        card.number = number
+
+        return card
+
 
     def is_valid(self) -> bool: 
         return True
     
-    def get_embed(self): 
+    def get_embed(self, utilities): 
         from src.embed_card import EmbedCard # workaround against circular imports
-        embed = EmbedCard(self).getEmbed()
+        embed = EmbedCard(self, utilities).get()
         return embed
     
     def __eq__(self, other) -> bool:

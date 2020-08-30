@@ -1,5 +1,6 @@
 # fake_database.py
 
+from datetime import date
 from functools import reduce
 import re
 from typing import List
@@ -9,7 +10,23 @@ from src.series import Series
 
 class FakeDatabase(DatabaseInterface): 
 
-    def __init__(self, cards: List[Card]):
+    def __init__(self):
+        teamUp = Series.from_test_data("Team Up", date(2019, 2, 1), ["SM9", "TEU", "SM09"])
+        rebelClash = Series.from_test_data("Rebel Clash", date(2020, 5, 1), ["SWSH2"])
+        celestialStorm = Series.from_test_data("Celestial Storm", date(2018, 8, 1), ["SM7"])
+        oldSet = Series.from_test_data("who cares", date(2015, 1, 1), [""])
+
+        cards = [
+            Card.from_test_data("Jirachi", oldSet, 42),
+            Card.from_test_data("Pikachu", oldSet, 25),
+            Card.from_test_data("Jirachi", teamUp, 99),
+            Card.from_test_data("Jirachi {*}", celestialStorm, 80),
+            Card.from_test_data("Pikachu GX", oldSet, 26),
+            Card.from_test_data("Pikachu EX", oldSet, 27),
+            Card.from_test_data("Pikachu&Zekrom GX", teamUp, 33),
+            Card.from_test_data("Intelleon V", rebelClash, 49),
+            Card.from_test_data("Intelleon Vmax", rebelClash, 50),
+        ]
         self.cards = cards
         self.__build_series()
 
