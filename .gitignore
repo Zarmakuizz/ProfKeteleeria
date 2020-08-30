@@ -1,7 +1,5 @@
 # Bot configuration
 .env
-# I developed this bot using a database I had access to
-*pokecardex*.py
 
 # Pre-generated gitignore by Github
 
