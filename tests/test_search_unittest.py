@@ -81,9 +81,9 @@ class TestSearch(unittest.TestCase):
         text3 = "[Jirachi SM09]"
 
         # Act
-        match1 = engine.find_cards(text1)[0] # TODO use series1
-        match2 = engine.find_cards(text2)[0] # TODO use series2
-        match3 = engine.find_cards(text3)[0] # TODO use series3
+        match1 = engine.find_cards(text1)[0]
+        match2 = engine.find_cards(text2)[0]
+        match3 = engine.find_cards(text3)[0]
 
         # Assert
         self.assertEqual( match1, match2, "Pokemon.com abbreviation and tournament official abbreviation should match")
@@ -116,6 +116,7 @@ class TestSearch(unittest.TestCase):
 
         # Assert
         self.assertNotIsInstance( match1, ErrorCard, "Should find a card")
+        # Beware of not picking Pikachu&Zekrom GX
         self.assertEqual(match1.name, "Pikachu GX", "The right card should be found")
         self.assertEqual(match1, match2, "Should be the same card")
     
@@ -138,8 +139,8 @@ class TestSearch(unittest.TestCase):
         # Arrange
         db = FakeDatabase()
         engine = Search(db)
-        text1 = "[Intelleon V]"
-        text2 = "[Intelleon-V]"
+        text1 = "[Inteleon V]"
+        text2 = "[Inteleon-V]"
 
         # Act
         match1 = engine.find_cards(text1)[0]
@@ -154,8 +155,8 @@ class TestSearch(unittest.TestCase):
         # Arrange
         db = FakeDatabase()
         engine = Search(db)
-        text1 = "[Intelleon Vmax]"
-        text2 = "[Intelleon-Vmax]"
+        text1 = "[Inteleon Vmax]"
+        text2 = "[Inteleon-Vmax]"
 
         # Act
         match1 = engine.find_cards(text1)[0]
@@ -164,7 +165,7 @@ class TestSearch(unittest.TestCase):
         # Assert
         self.assertNotIsInstance( match1, ErrorCard, "Should find a card")
         self.assertEqual(match1, match2, "Should be the same card")
-        self.assertNotEqual(match1.name, "Intelleon V" , "Should not pick the V card")
+        self.assertNotEqual(match1.name, "Inteleon V" , "Should not pick the V card")
 
     def test_get_Tag_Team_card(self):
         # Arrange
@@ -196,7 +197,7 @@ class TestSearch(unittest.TestCase):
         # match = engine.find_cards(text)[0]
 
         # # Assert
-        # self.assertTrue("Intelleon" in match.name, "Intelleon is Lézargus in French")
+        # self.assertTrue("Inteleon" in match.name, "Inteleon is Lézargus in French")
         self.fail("Feature not supported with the fake database")
 
 

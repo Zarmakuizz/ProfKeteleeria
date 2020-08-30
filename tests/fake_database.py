@@ -24,8 +24,8 @@ class FakeDatabase(DatabaseInterface):
             Card.from_test_data("Pikachu GX", oldSet, 26),
             Card.from_test_data("Pikachu EX", oldSet, 27),
             Card.from_test_data("Pikachu&Zekrom GX", teamUp, 33),
-            Card.from_test_data("Intelleon V", rebelClash, 49),
-            Card.from_test_data("Intelleon Vmax", rebelClash, 50),
+            Card.from_test_data("Inteleon V", rebelClash, 49),
+            Card.from_test_data("Inteleon Vmax", rebelClash, 50),
         ]
         self.cards = cards
         self.__build_series()
